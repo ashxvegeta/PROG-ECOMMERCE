@@ -35,14 +35,26 @@
                                                 <td>{{$list->code}}</td>
                                                 <td>{{$list->value}}</td>
                                                <td>
+
+                                               <a href="{{url('admin/coupon/manage_coupon/')}}/{{$list->id}}">
+                                                <button class="btn btn-warning">Edit</button>
+                                                </a>
+                                                
+                                                
+                                                @if($list->status==1)
+                                                <a href="coupon/status/0/{{$list->id}}">
+                                                <button class="btn btn-success">Active</button>
+                                                </a>
+                                                @elseif($list->status==0)
+                                                <a href="coupon/status/1/{{$list->id}}">
+                                                <button class="btn btn-primary">Inative</button>
+                                                </a>
+                                                @endif
+                                            
                                                 <a href="coupon/delete/{{$list->id}}">
                                                 <button class="btn btn-danger">Delete</button>
                                                 </a>
                                                 
-                                            
-                                                <a href="{{url('admin/coupon/manage_coupon/')}}/{{$list->id}}">
-                                                <button class="btn btn-warning">Edit</button>
-                                                </a>
                                                </td>
                                             </tr>
                                             @endforeach

@@ -35,14 +35,27 @@
                                                 <td>{{$list->category_name}}</td>
                                                 <td>{{$list->category_slug}}</td>
                                                <td>
+
+                                               <a href="{{url('admin/category/manage_category/')}}/{{$list->id}}">
+                                                <button class="btn btn-warning">Edit</button>
+                                                </a>
+
+                                                @if($list->status==1)
+                                                <a href="{{url('admin/category/status/0')}}/{{$list->id}}">
+                                                <button class="btn btn-success px-3">Active</button>
+                                                </a>
+                                                @elseif($list->status==0)
+                                                <a href="{{url('admin/category/status/1')}}/{{$list->id}}">
+                                                <button class="btn btn-primary">Inative</button>
+                                                </a>
+                                                @endif
+
                                                 <a href="category/delete/{{$list->id}}">
                                                 <button class="btn btn-danger">Delete</button>
                                                 </a>
                                                 
                                             
-                                                <a href="{{url('admin/category/manage_category/')}}/{{$list->id}}">
-                                                <button class="btn btn-warning">Edit</button>
-                                                </a>
+                                                
                                                </td>
                                             </tr>
                                             @endforeach

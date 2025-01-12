@@ -46,6 +46,7 @@ class CouponController extends Controller
         $category->title =  $request->post('title');
         $category->code =  $request->post('code');
         $category->value =  $request->post('value');
+        $category->status = 1;
         $category->save();
         $request->session()->flash('message', $msg);
         return redirect('admin/coupon');
@@ -58,7 +59,13 @@ class CouponController extends Controller
          return redirect('admin/coupon');	
       }
 
-
+      public function status(Request $request,$status,$id){
+        $model = Coupon::find($id);
+        $model->status = $status;
+        $model->save();
+        $request->session()->flash('message', 'Coupon status updated');
+        return redirect('admin/coupon');	
+      }
 
 
 }
