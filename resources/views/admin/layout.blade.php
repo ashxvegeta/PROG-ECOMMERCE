@@ -55,6 +55,18 @@
                             <a  href="{{url('admin/coupon')}}">
                             <i class="fas fa-tachometer-alt"></i>Coupon</a>
                         </li>
+                        <li>
+                            <a  href="{{url('admin/size')}}">
+                            <i class="fas fa-tachometer-alt"></i>Size</a>
+                        </li>
+                        <li>
+                            <a  href="{{url('admin/color')}}">
+                            <i class="fas fa-tachometer-alt"></i>Color</a>
+                        </li>
+                        <li>
+                            <a  href="{{url('admin/product')}}">
+                            <i class="fas fa-product-hunt"></i>Product</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -79,9 +91,21 @@
                             <a  href="{{url('admin/category')}}">
                             <i class="fas fa-tachometer-alt"></i>Category</a>
                         </li>
-                        <li class="@yield('coupon_select')">
+                        <li class="@yield('coupon_select')"> 
                             <a  href="{{url('admin/coupon')}}">
                             <i class="fas fa-tachometer-alt"></i>Coupon</a>
+                        </li>
+                        <li class="@yield('size_select')">
+                            <a  href="{{url('admin/size')}}">
+                            <i class="fas fa-tachometer-alt"></i>Size</a>
+                        </li>
+                        <li class="@yield('color_select')">
+                            <a  href="{{url('admin/color')}}">
+                            <i class="fas fa-tachometer-alt"></i>Color</a>
+                        </li>
+                        <li class="@yield('color_select')">
+                            <a  href="{{url('admin/product')}}">
+                            <i class="fas fa-product-hunt"></i>Product</a>
                         </li>
                         
                         
