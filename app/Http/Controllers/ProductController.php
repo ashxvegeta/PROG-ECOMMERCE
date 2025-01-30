@@ -31,6 +31,8 @@ class ProductController extends Controller
             $result['warranty'] = $arr[0]->warranty;
             $result['status'] = $arr[0]->status;
             $result['id'] = $arr[0]->id;
+            $result['productsAttrArr'] = DB::table('products_attr')->where('products_id',$id)->get();
+          
         } else {
             $result['category_id'] = '';
             $result['name'] = '';
@@ -46,6 +48,15 @@ class ProductController extends Controller
             $result['warranty'] = '';
             $result['status'] = '';
             $result['id'] = 0;
+            $result['id']=0;
+            $result['productsAttrArr'][0]['products_id']='';
+            $result['productsAttrArr'][0]['sku' ]=' ';
+            $result['productsAttrArr'][0]['attr_image']=' ';
+            $result['productsAttrArr'][0]['mrp']=' ';
+            $result['productsAttrArr'][0]['price']='';
+            $result['productsAttrArr'][0]['qty']=' ';
+            $result['productsAttrArr'][0]['size_id']='';
+            $result['productsAttrArr'][0]['color_id']=' ';
         }
         $result['category'] = DB::table('categories')->where('status',1)->get();
         $result['sizes'] = DB::table('sizes')->where('status',1)->get();
@@ -54,7 +65,9 @@ class ProductController extends Controller
       }
   
       public function manage_product_process(Request $request){
-
+        // echo "<pre>";
+        // print_r ($request->post());
+        // die('ddd');
         if($request->post('id')>0){
          $image_validation =  "mimes:jpeg,jpg,png";
         }else{
@@ -95,6 +108,35 @@ class ProductController extends Controller
         $product->warranty = $request->post('warranty');
         $product->status = 1;
         $product->save();
+        //product attr start 
+        $pid = $product->id;
+        $skuArr=$request->post('sku');
+        $mrpArr=$request->post('mrp');
+        $priceArr=$request->post('price');
+        $qtyArr=$request->post('qty');
+        $size_idArr=$request->post('size_id');
+        $color_idArr=$request->post('color_id');
+        foreach($skuArr as $key=>$val){
+        $productAttrarr['products_id'] = $pid;  
+        $productAttrarr['sku'] = $skuArr[$key];
+        $productAttrarr['attr_image'] = 1;
+        $productAttrarr['mrp'] = $mrpArr[$key];
+        $productAttrarr['price'] = $priceArr[$key];
+        $productAttrarr['qty'] = $qtyArr[$key];
+        if($size_idArr[$key]==''){
+            $productAttrarr['size_id'] = 0;
+        }else{
+            $productAttrarr['size_id'] = $size_idArr[$key];
+
+        }
+        if($color_idArr[$key]==''){
+            $productAttrarr['color_id'] = 0;
+        }else{
+            $productAttrarr['color_id'] = $color_idArr[$key];
+
+        }
+        DB::table('products_attr')->insert($productAttrarr);   
+        }    
         $request->session()->flash('message', $msg);
         return redirect('admin/product');
     }
