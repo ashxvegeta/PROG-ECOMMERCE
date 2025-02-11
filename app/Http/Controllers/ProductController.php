@@ -49,6 +49,7 @@ class ProductController extends Controller
             $result['status'] = '';
             $result['id'] = 0;
             $result['id']=0;
+            $result['productsAttrArr'][0]['id']='';
             $result['productsAttrArr'][0]['products_id']='';
             $result['productsAttrArr'][0]['sku' ]=' ';
             $result['productsAttrArr'][0]['attr_image']=' ';
@@ -78,7 +79,27 @@ class ProductController extends Controller
             'name' => 'required',
             'image' =>  $image_validation,
             'slug' => 'required|unique:products,slug,' . $request->post('id'),
+            'attr_image.*' => 'mimes:jpeg,jpg,png',
+
         ]);
+        $paidArr=$request->post('paid');
+        $skuArr=$request->post('sku');
+        $mrpArr=$request->post('mrp');
+        $priceArr=$request->post('price');
+        $qtyArr=$request->post('qty');
+        $size_idArr=$request->post('size_id');
+        $color_idArr=$request->post('color_id');
+        foreach($skuArr as $key=>$val){
+           $check = DB::table('products_attr')->
+            where('sku','=',$skuArr[$key])->
+            where('id','!=',$paidArr[$key])->
+            get();   
+            if(isset($check[0]->id)){
+                $request->session()->flash('sku_error', $skuArr[$key].' sku already exists');
+                return redirect()->back();
+            }
+        }
+
         if ($request->post('id') > 0) {
             $product = Product::find($request->post('id'));
             $msg = "Product Updated successfully";
@@ -110,16 +131,11 @@ class ProductController extends Controller
         $product->save();
         //product attr start 
         $pid = $product->id;
-        $skuArr=$request->post('sku');
-        $mrpArr=$request->post('mrp');
-        $priceArr=$request->post('price');
-        $qtyArr=$request->post('qty');
-        $size_idArr=$request->post('size_id');
-        $color_idArr=$request->post('color_id');
+        
         foreach($skuArr as $key=>$val){
         $productAttrarr['products_id'] = $pid;  
         $productAttrarr['sku'] = $skuArr[$key];
-        $productAttrarr['attr_image'] = 1;
+        // $productAttrarr['attr_image'] = 1;
         $productAttrarr['mrp'] = $mrpArr[$key];
         $productAttrarr['price'] = $priceArr[$key];
         $productAttrarr['qty'] = $qtyArr[$key];
@@ -135,7 +151,21 @@ class ProductController extends Controller
             $productAttrarr['color_id'] = $color_idArr[$key];
 
         }
-        DB::table('products_attr')->insert($productAttrarr);   
+        if ($request->hasfile("attr_image.$key")) {
+            $rand = rand(1111111111,9999999999);
+            $attr_image = $request->file("attr_image.$key");
+            $ext = $attr_image->extension();
+            $image_name = $rand . '.' . $ext;
+            $request->file("attr_image.$key")->storeAs('/public/media',$image_name);
+            $productAttrarr['attr_image'] = $image_name;
+        }else{
+            $productAttrarr['attr_image'] = '';
+        }
+        if($paidArr[$key]!=''){
+            DB::table('products_attr')->where('id',$paidArr[$key])->update($productAttrarr);
+        }else{
+            DB::table('products_attr')->insert($productAttrarr);
+        }
         }    
         $request->session()->flash('message', $msg);
         return redirect('admin/product');
@@ -147,6 +177,11 @@ class ProductController extends Controller
          $request->session()->flash('message', 'Product deleted');
          return redirect('admin/product');	
       }
+
+      public function product_attr_delete(Request $request,$paid,$pid){
+        DB::table('products_attr')->where('id',$paid)->delete();
+        return redirect('admin/product/manage_product/'.$pid);	
+     }
   
       public function status(Request $request,$status,$id){
         $model = Product::find($id);

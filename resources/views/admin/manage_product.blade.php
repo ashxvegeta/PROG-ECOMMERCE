@@ -11,6 +11,21 @@
 <a href="{{url('admin/product')}}" class="mt-2">
     <button type="button" class="btn btn-success">Back</button>
 </a>
+
+
+
+@if(session('sku_error'))
+        <div class="alert alert-danger mt-4">
+        <strong>{{session('sku_error')}}</strong>
+        </div>
+@endif
+
+@error('attr_image.*')
+<div class="alert alert-danger mt-4">
+<strong>{{$message}}</strong>
+</div>
+@enderror
+
 <div class="row m-t-30">
     <div class="col-md-12">
         <form action="{{route('product.manage_product_process')}}" method="post" novalidate="novalidate"
@@ -178,20 +193,23 @@
             <div class="row">
                 <h2 class="pt-3 pb-3">Product Attribute</h2>
                 <div class="col-lg-12" id="product_attr_box">
-                    <!-- {{session('message')}} -->
+                    @php
+                    $loop_count_num=1;
+                    @endphp
                     @foreach($productsAttrArr as $key=>$val)
-                    <?php
-                    
-                        $pAArr = array($val);
-                    ?>
-                    <div class="card" id="product_attr_1">
+                    @php
+                      $loop_count_prev =  $loop_count_num;
+                      $pAArr =  json_decode(json_encode($val),true);
+                    @endphp
+                    <input type="hidden" id="paid" name="paid[]" value="{{$pAArr['id']}}">
+                    <div class="card" id="product_attr_{{$loop_count_num++}}">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-2">
                                     <div class="form-group">
                                         <label for="brand" class="control-label mb-1">SKU</label>
                                         <input id="sku" name="sku[]" type="text" class="form-control"
-                                            aria-required="true" aria-invalid="false" value="" required>
+                                            aria-required="true" aria-invalid="false" value="{{$pAArr['sku']}}" required>
                                     </div>
                                     @error('sku')
                                     <div class="alert alert-danger">
@@ -204,7 +222,7 @@
                                     <div class="form-group">
                                         <label for="mrp" class="control-label mb-1">MRP</label>
                                         <input id="mrp" name="mrp[]" type="text" class="form-control"
-                                            aria-required="true" aria-invalid="false" value="" required>
+                                            aria-required="true" aria-invalid="false" value="{{$pAArr['mrp']}}" required>
                                     </div>
                                     @error('mrp')
                                     <div class="alert alert-danger">
@@ -216,7 +234,7 @@
                                     <div class="form-group">
                                         <label for="price" class="control-label mb-1">Price</label>
                                         <input id="price" name="price[]" type="text" class="form-control"
-                                            aria-required="true" aria-invalid="false" value="" required>
+                                            aria-required="true" aria-invalid="false" value="{{$pAArr['price']}}" required>
                                     </div>
                                     @error('price')
                                     <div class="alert alert-danger">
@@ -230,9 +248,11 @@
                                         <select name="size_id[]" id="size_id" class="form-control">
                                             <option value="">Select</option>
                                             @foreach($sizes as $list)
-
-                                            <option value="{{$list->id}}">{{$list->size}}</option>
-
+                                            @if($pAArr['size_id']==$list->id)
+                                            <option value="{{$list->id}}" selected>{{$list->size}}</option>
+                                            @else
+                                            <option value="{{$list->id}}">{{$list->size}}</option>    
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -248,7 +268,11 @@
                                         <select name="color_id[]" id="color_id" class="form-control">
                                             <option value="">Select</option>
                                             @foreach($colors as $list)
+                                            @if($pAArr['color_id']==$list->id)
+                                            <option value="{{$list->id}}" selected>{{$list->color}}</option>
+                                            @else
                                             <option value="{{$list->id}}">{{$list->color}}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -262,7 +286,7 @@
                                     <div class="form-group">
                                         <label for="qty" class="control-label mb-1">Qty</label>
                                         <input id="qty" name="qty[]" type="text" class="form-control"
-                                            aria-required="true" aria-invalid="false" value="" required>
+                                            aria-required="true" aria-invalid="false" value="{{$pAArr['qty']}}" required>
                                     </div>
                                     @error('qty')
                                     <div class="alert alert-danger">
@@ -274,10 +298,20 @@
                                     <label for="attr_image" class="control-label mb-1">Image</label>
                                     <input id="attr_image" name="attr_image[]" type="file" class="form-control"
                                         aria-required="true" aria-invalid="false" {{$image_required}}>
+                                        @if($pAArr['attr_image']!='')
+                                        <img width="100px;" src="{{asset('storage/media/'.$pAArr['attr_image'])}}" alt="{{$pAArr['attr_image']}}">git
+                                        @endif    
                                 </div>
                                 <div class="col-4 mt-4">
+                                    @if($loop_count_num==2)
                                     <button type="button" class="btn btn-success btn-lg"
                                         onclick="add_more()">+Add</button>
+                                    @else
+                                    <a href="{{url('admin/product/product_attr_delete/')}}/{{$pAArr['id']}}/{{$id}}">
+                                    <button type="button" class="btn btn-danger btn-lg"
+                                        onclick="remove_more({{$loop_count_prev}})">-Remove</button>
+                                        </a>
+                                    @endif                                          
                                 </div>
                             </div>
                         </div>
@@ -300,23 +334,31 @@ var loop_count = 1;
 
 function add_more() {
     loop_count++;
-    var html = '<div class="card" id="product_attr_' + loop_count + '"><div class="card-body"><div class="row">';
+    var html = '<input type="hidden" id="paid" name="paid[]" value=""><div class="card" id="product_attr_' + loop_count + '"><div class="card-body"><div class="row">';
+    
     html +=
         '<div class="col-2"><div class="form-group"><label for="sku" class="control-label mb-1">SKU</label><input id="sku" name="sku[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
+    
     html +=
         '<div class="col-2"><div class="form-group"><label for="mrp" class="control-label mb-1">MRP</label><input id="mrp" name="mrp[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
+    
     html +=
         '<div class="col-2"><div class="form-group"><label for="price" class="control-label mb-1">Price</label><input id="price" name="price[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
     var size_id_html = $('#size_id').html();
+    size_id_html = size_id_html.replace("selected","");
     html +=
         '<div class="col-3"><label for="size_id" class="control-label mb-1">Select Size</label><select name="size_id[]" id="size_id" class="form-control">' +
         size_id_html + '</select></div>';
     var color_id_html = $('#color_id').html();
+    color_id_html = color_id_html.replace("selected","");
+    
     html +=
         '<div class="col-3"><label for="color_id" class="control-label mb-1">Select Color</label><select name="color_id[]" id="color_id" class="form-control">' +
         color_id_html + '</select></div>';
+    
     html +=
         '<div class="col-2"><div class="form-group"><label for="qty" class="control-label mb-1">Qty</label><input id="qty" name="qty[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
+    
     html +=
         '<div class="col-4"><div class="form-group"><label for="attr_image" class="control-label mb-1">Image</label><input type="file" id="attr_image" name="attr_image[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
     html += '<div class="col-4 mt-4"><button type="button" class="btn btn-danger btn-lg" onclick="remove_more(' +
