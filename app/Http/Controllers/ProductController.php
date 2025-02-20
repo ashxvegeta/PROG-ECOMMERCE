@@ -32,6 +32,16 @@ class ProductController extends Controller
             $result['status'] = $arr[0]->status;
             $result['id'] = $arr[0]->id;
             $result['productsAttrArr'] = DB::table('products_attr')->where('products_id',$id)->get();
+            $result['productsImagesArr'] = DB::table('product_images')->where('products_id',$id)->get();
+            $productsImagesArr =  DB::table('product_images')->where('products_id',$id)->get();
+            // print_r($productsImagesArr);
+            // die('dd');
+            if(!isset($productsImagesArr[0])){
+                $result['productsImagesArr'][0]['id']=' ';
+                $result['productsImagesArr'][0]['images']=' ';  
+            }else{
+                $result['productsImagesArr'] = $productsImagesArr;
+            }
           
         } else {
             $result['category_id'] = '';
@@ -58,7 +68,12 @@ class ProductController extends Controller
             $result['productsAttrArr'][0]['qty']=' ';
             $result['productsAttrArr'][0]['size_id']='';
             $result['productsAttrArr'][0]['color_id']=' ';
+            $result['productsImagesArr'][0]['id']=' ';
+            $result['productsImagesArr'][0]['images']=' ';
         }
+        // echo "<pre>";
+        // print_r($result);
+        // die('dd');
         $result['category'] = DB::table('categories')->where('status',1)->get();
         $result['sizes'] = DB::table('sizes')->where('status',1)->get();
         $result['colors'] = DB::table('colors')->where('status',1)->get();
@@ -182,6 +197,13 @@ class ProductController extends Controller
         DB::table('products_attr')->where('id',$paid)->delete();
         return redirect('admin/product/manage_product/'.$pid);	
      }
+
+     public function product_images_delete(Request $request,$paid,$pid){
+        DB::table('product_images')->where('id',$paid)->delete();
+        return redirect('admin/product/manage_product/'.$pid);	
+     }
+
+     
   
       public function status(Request $request,$status,$id){
         $model = Product::find($id);
