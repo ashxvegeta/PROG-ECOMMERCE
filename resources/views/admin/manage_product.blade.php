@@ -26,6 +26,12 @@
 </div>
 @enderror
 
+@error('images.*')
+<div class="alert alert-danger mt-4">
+<strong>{{$message}}</strong>
+</div>
+@enderror
+
 <div class="row m-t-30">
     <div class="col-md-12">
         <form action="{{route('product.manage_product_process')}}" method="post" novalidate="novalidate"
@@ -325,7 +331,11 @@
 
                 <h2 class="pt-3 pb-3">Product Images</h2>
                 <div class="col-lg-12" >
-                    @php
+                    
+                    <div class="card" >
+                        <div class="card-body">
+                            <div class="row" id="product_image_box">    
+                            @php
                     $loop_count_num=1;
                     @endphp
                     @foreach($productsImagesArr as $key=>$val)
@@ -334,17 +344,19 @@
                       $pIArr =  json_decode(json_encode($val),true);
                     @endphp
                     <input type="hidden" id="piid" name="piid[]" value="{{$pIArr['id']}}">
-                    <div class="card" >
-                        <div class="card-body">
-                            <div class="row" id="product_image_box">             
                                 <div class="col-4" class="product_images_{{$loop_count_num++}}" >
                                     <label for="images" class="control-label mb-1">Image</label>
                                     <input id="images" name="images[]" type="file" class="form-control"
                                         aria-required="true" aria-invalid="false" {{$image_required}}>
                                         @if($pIArr['images']!='')
+                                        <a href="{{asset('storage/media/'.$pIArr['images'])}}" target="_blank">
                                         <img width="100px;" src="{{asset('storage/media/'.$pIArr['images'])}}" alt="{{$pIArr['images']}}">
+                                        </a>
                                         @endif    
                                 </div>
+
+
+                                
 
                                 <div class="col-2 mt-4" >
                                     @if($loop_count_num==2)
@@ -357,10 +369,11 @@
                                         </a>
                                     @endif                                                        
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                    
                 </div>
             </div>
 
@@ -421,11 +434,14 @@ function add_image_more() {
     
     loop_image_count++;
     var html =
-        '<div class="col-4 product_images_'+loop_image_count+'"><div class="form-group"><label for="images" class="control-label mb-1">Image</label><input type="file" id="images" name="images[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
-    html += '<div class="col-2 mt-4"><button type="button" class="btn btn-danger btn-lg" onclick="remove_image_more(' +
+        '<input type="hidden" id="piid" name="piid[]" value=""><div class="col-4 product_images_'+loop_image_count+'"><div class="form-group"><label for="images" class="control-label mb-1">Image</label><input type="file" id="images" name="images[]" type="text" class="form-control" aria-required="true" aria-invalid="false" value="" required></div></div>';
+    html += '<div class="col-2 mt-4 product_images_'+loop_image_count+'"><button type="button" class="btn btn-danger btn-lg" onclick="remove_image_more(' +
     loop_image_count + ')">-Remove</button></div>';
 
     $('#product_image_box').append(html);
+}
+function remove_image_more(loop_image_count) {
+    $('product_images_' + loop_image_count).remove();
 }
 </script>
 

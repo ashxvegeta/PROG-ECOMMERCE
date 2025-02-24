@@ -95,6 +95,7 @@ class ProductController extends Controller
             'image' =>  $image_validation,
             'slug' => 'required|unique:products,slug,' . $request->post('id'),
             'attr_image.*' => 'mimes:jpeg,jpg,png',
+            'images.*' => 'mimes:jpeg,jpg,png',
 
         ]);
         $paidArr=$request->post('paid');
@@ -182,6 +183,30 @@ class ProductController extends Controller
             DB::table('products_attr')->insert($productAttrarr);
         }
         }    
+        // product images start
+
+        $piidArr=$request->post('piid');
+        foreach($piidArr as $key=>$val){
+            $productImagesArr['products_id'] = $pid;  
+            if ($request->hasfile("images.$key")) {
+                $rand = rand(1111111111,9999999999);
+                $images = $request->file("images.$key");
+                $ext = $images->extension();
+                $image_name = $rand . '.' . $ext;
+                $request->file("images.$key")->storeAs('/public/media',$image_name);
+                $productImagesArr['images'] = $image_name;
+            }
+            if($piidArr[$key]!=''){
+                DB::table('product_images')->where('id',$piidArr[$key])->update($productImagesArr);
+            }else{
+                $productImagesArr['products_id'] = $pid;
+                DB::table('product_images')->insert($productImagesArr);
+            }
+        }
+
+        // product images end
+
+
         $request->session()->flash('message', $msg);
         return redirect('admin/product');
     }
