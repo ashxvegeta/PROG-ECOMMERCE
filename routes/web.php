@@ -7,6 +7,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,11 +62,20 @@ Route::group(['middleware'=>'admin_auth'],function(){
     Route::post('admin/product/manage_product_process',[ ProductController::class,'manage_product_process'])->name('product.manage_product_process');
     Route::get('admin/product/delete/{id}',[ ProductController::class,'delete']);
     Route::get('admin/product/product_attr_delete/{paid}/{pid}',[ ProductController::class,'product_attr_delete']);
-
     Route::get('admin/product/product_images_delete/{paid}/{pid}',[ ProductController::class,'product_images_delete']);
-
     Route::get('admin/product/status/{status}/{id}',[ ProductController::class,'status']);
-//
+    
+    //brand
+    Route::get('admin/brand',[ BrandController::class,'index']);
+    Route::get('admin/brand/manage_brand',[ BrandController::class,'manage_brand']);
+    Route::get('admin/brand/manage_brand/{id}',[ BrandController::class,'manage_brand']);    
+    Route::post('admin/brand/manage_brand_process',[ BrandController::class,'manage_brand_process'])->name('brand.manage_brand_process');
+    Route::get('admin/brand/delete/{id}',[ BrandController::class,'delete']);
+    Route::get('admin/brand/status/{status}/{id}',[ BrandController::class,'status']);
+
+
+
+
     Route::get('/admin/logout', function () {
         session()->forget('ADMIN_LOGIN');
         session()->forget('ADMIN_ID');
