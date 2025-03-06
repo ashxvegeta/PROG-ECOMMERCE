@@ -107,8 +107,17 @@
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label for="brand" class="control-label mb-1">Brand</label>
-                                        <input id="brand" name="brand" type="text" class="form-control"
-                                            aria-required="true" aria-invalid="false" value="{{$brand}}" required>
+                                        <select name="brand" id="brand" class="form-control" required>
+                                            <option value="">Select categories</option>
+                                            @foreach($brands as $list)
+                                            @if($brand==$list->id)
+                                            <option value="{{$list->id}}" @if($brand==$list->id)selected
+                                                @endif>{{$list->name}}</option>
+                                            @else
+                                            <option value="{{$list->id}}">{{$list->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
                                     </div>
                                     @error('brand')
                                     <div class="alert alert-danger">

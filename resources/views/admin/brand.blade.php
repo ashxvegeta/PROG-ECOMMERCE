@@ -1,6 +1,6 @@
 @extends('admin/layout')
-@section('page_title','Color')
-@section('color_select','active')
+@section('page_title','Brand')
+@section('brand_select','active')
 
 
 
@@ -10,10 +10,10 @@
         <strong>{{session('message')}}</strong>
         </div>
         @endif
-    <h1 class="mb-10">Color</h1>
+    <h1 class="mb-10">Brand</h1>
        <!-- <a href="category/manage_category" class="mt-2"> -->
-       <a href="{{url('admin/color/manage_color/')}}" class="mt-2">
-          <button type="button" class="btn btn-success">Add Color</button>
+       <a href="{{url('admin/brand/manage_brand/')}}" class="mt-2">
+          <button type="button" class="btn btn-success">Add Brand</button>
        </a>
     <div class="row m-t-30">
                             <div class="col-md-12">
@@ -23,7 +23,8 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Color Name</th>
+                                                <th>Brand Name</th> 
+                                                <th>Brand image</th> 
                                                 <th>Action</th> 
                                             </tr>
                                         </thead>
@@ -31,24 +32,29 @@
                                             @foreach($data as $list)
                                             <tr>
                                                 <td>{{$list->id}}</td>
-                                                <td>{{$list->color}}</td>
+                                                <td>{{$list->name}}</td>
+                                                <td>
+                                                @if($list->image!='')
+                                                <img width="100px;" src="{{asset('storage/media/brand/'.$list->image)}}" alt="{{$list->image}}">
+                                                @endif
+                                                </td>
                                                <td>
 
-                                               <a href="{{url('admin/color/manage_color/')}}/{{$list->id}}">
+                                               <a href="{{url('admin/brand/manage_brand/')}}/{{$list->id}}">
                                                 <button class="btn btn-warning">Edit</button>
                                                 </a>
 
                                                 @if($list->status==1)
-                                                <a href="{{url('admin/color/status/0')}}/{{$list->id}}">
+                                                <a href="{{url('admin/brand/status/0')}}/{{$list->id}}">
                                                 <button class="btn btn-success px-3">Active</button>
                                                 </a>
                                                 @elseif($list->status==0)
-                                                <a href="{{url('admin/color/status/1')}}/{{$list->id}}">
+                                                <a href="{{url('admin/brand/status/1')}}/{{$list->id}}">
                                                 <button class="btn btn-primary">Inative</button>
                                                 </a>
                                                 @endif
 
-                                                <a href="color/delete/{{$list->id}}">
+                                                <a href="brand/delete/{{$list->id}}">
                                                 <button class="btn btn-danger">Delete</button>
                                                 </a>
                                                 
