@@ -155,9 +155,9 @@ class ProductController extends Controller
         $productAttrarr['products_id'] = $pid;  
         $productAttrarr['sku'] = $skuArr[$key];
         // $productAttrarr['attr_image'] = 1;
-        $productAttrarr['mrp'] = $mrpArr[$key];
-        $productAttrarr['price'] = $priceArr[$key];
-        $productAttrarr['qty'] = $qtyArr[$key];
+        $productAttrarr['mrp'] = (int)$mrpArr[$key];
+        $productAttrarr['price'] = (int)$priceArr[$key];
+        $productAttrarr['qty'] = (int)$qtyArr[$key];
         if($size_idArr[$key]==''){
             $productAttrarr['size_id'] = 0;
         }else{
@@ -198,13 +198,20 @@ class ProductController extends Controller
                 $image_name = $rand . '.' . $ext;
                 $request->file("images.$key")->storeAs('/public/media',$image_name);
                 $productImagesArr['images'] = $image_name;
+
+                if($piidArr[$key]!=''){
+                    DB::table('product_images')->where('id',$piidArr[$key])->update($productImagesArr);
+                }else{
+                    $productImagesArr['products_id'] = $pid;
+                    DB::table('product_images')->insert($productImagesArr);
+                }
             }
-            if($piidArr[$key]!=''){
-                DB::table('product_images')->where('id',$piidArr[$key])->update($productImagesArr);
-            }else{
-                $productImagesArr['products_id'] = $pid;
-                DB::table('product_images')->insert($productImagesArr);
-            }
+            // if($piidArr[$key]!=''){
+            //     DB::table('product_images')->where('id',$piidArr[$key])->update($productImagesArr);
+            // }else{
+            //     $productImagesArr['products_id'] = $pid;
+            //     DB::table('product_images')->insert($productImagesArr);
+            // }
         }
 
         // product images end

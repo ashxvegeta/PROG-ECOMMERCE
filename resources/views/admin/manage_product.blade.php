@@ -72,7 +72,7 @@
                                 <strong>{{$message}}</strong>
                             </div>
                             @enderror
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="slug" class="control-label mb-1">slug</label>
                                 <input id="slug" name="slug" type="text" class="form-control" aria-required="true"
                                     aria-invalid="false" value="{{$slug}}" required>
@@ -81,7 +81,7 @@
                             <div class="alert alert-danger">
                                 <strong>{{$message}}</strong>
                             </div>
-                            @enderror
+                            @enderror -->
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group">
