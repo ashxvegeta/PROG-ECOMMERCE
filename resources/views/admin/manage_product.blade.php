@@ -12,7 +12,7 @@
     <button type="button" class="btn btn-success">Back</button>
 </a>
 
-
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 
 @if(session('sku_error'))
         <div class="alert alert-danger mt-4">
@@ -452,6 +452,7 @@ function add_image_more() {
 function remove_image_more(loop_image_count) {
     $('product_images_' + loop_image_count).remove();
 }
+CKEDITOR.replace('short_desc');
 </script>
 
 @endsection

@@ -29,6 +29,16 @@ class ProductController extends Controller
             $result['technical_specification'] = $arr[0]->technical_specification;
             $result['uses'] = $arr[0]->uses;
             $result['warranty'] = $arr[0]->warranty;
+
+            $result['lead_time'] = $arr[0]->lead_time;
+            $result['tax'] = $arr[0]->tax;
+            $result['tax_type'] = $arr[0]->tax_type;
+            $result['is_promo'] = $arr[0]->is_promo;
+            $result['is_featured'] = $arr[0]->is_featured;
+            $result['is_discounted'] = $arr[0]->is_discounted;
+            $result['is_tranding'] = $arr[0]->is_tranding;
+         
+
             $result['status'] = $arr[0]->status;
             $result['id'] = $arr[0]->id;
             $result['productsAttrArr'] = DB::table('products_attr')->where('products_id',$id)->get();
@@ -56,6 +66,13 @@ class ProductController extends Controller
             $result['technical_specification'] = '';
             $result['uses'] = '';
             $result['warranty'] = '';
+            $result['lead_time'] = '';
+            $result['tax'] = '';
+            $result['tax_type'] = '';
+            $result['is_promo'] = '';
+            $result['is_featured'] = '';
+            $result['is_discounted'] = '';
+            $result['is_tranding'] = '';
             $result['status'] = '';
             $result['id'] = 0;
             $result['id']=0;
@@ -146,6 +163,15 @@ class ProductController extends Controller
         $product->technical_specification = $request->post('technical_specification');
         $product->uses = $request->post('uses');
         $product->warranty = $request->post('warranty');
+
+        $product->lead_time = $request->post('lead_time');
+        $product->tax = $request->post('tax');
+        $product->tax_type = $request->post('tax_type');
+        $product->is_promo = $request->post('is_promo');
+        $product->is_featured = $request->post('is_featured');
+        $product->is_discounted = $request->post('is_discounted');
+        $product->is_tranding = $request->post('is_tranding');
+        
         $product->status = 1;
         $product->save();
         //product attr start 
