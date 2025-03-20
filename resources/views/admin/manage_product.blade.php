@@ -200,6 +200,111 @@
                                 <strong>{{$message}}</strong>
                             </div>
                             @enderror
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="lead_time" class="control-label mb-1">Lead Time</label>
+<input id="lead_time" value="{{$lead_time}}" name="lead_time" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('lead_time')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                             
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="tax" class="control-label mb-1">Tax</label>
+<input id="tax" value="{{$tax}}" name="tax" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('tax')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="model" class="control-label mb-1">tax type</label>
+                                        <input id="tax_type" value="{{$tax_type}}" name="tax_type" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('tax_type')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+<!--  -->
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="is_promo" class="control-label mb-1">Is pramotional</label>
+
+                                    <select name="is_promo" id="is_promo" class="form-control">
+                                        @if(($is_promo)==1) 
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                       
+                                        @else 
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                        @endif
+                                    
+                                    </select>
+                                    </div>
+                                    @error('is_promo')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                             
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="tax" class="control-label mb-1">Tax</label>
+<input id="tax" value="{{$tax}}" name="tax" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('tax')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="model" class="control-label mb-1">tax type</label>
+                                        <input id="tax_type" value="{{$tax_type}}" name="tax_type" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('tax_type')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="model" class="control-label mb-1">tax type</label>
+                                        <input id="tax_type" value="{{$tax_type}}" name="tax_type" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+                                    @error('tax_type')
+                                    <div class="alert alert-danger">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <!--  -->
+
+
                         </div>
                     </div>
                 </div>
