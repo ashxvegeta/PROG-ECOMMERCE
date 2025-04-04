@@ -101,6 +101,11 @@ class ProductController extends Controller
       }
   
       public function manage_product_process(Request $request){
+
+
+        // return $request->post();
+        // die('f');
+
         // echo "<pre>";
         // print_r ($request->post());
         // die('ddd');

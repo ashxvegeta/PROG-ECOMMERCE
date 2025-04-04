@@ -264,24 +264,48 @@
                                     </div>
                                     @enderror
                                 </div>
-                             
+
                                 <div class="col-3">
                                     <div class="form-group">
-                                        <label for="tax" class="control-label mb-1">Tax</label>
-<input id="tax" value="{{$tax}}" name="tax" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                        <label for="is_promo" class="control-label mb-1">Is featured</label>
+
+                                    <select name="is_featured" id="is_promo" class="form-control">
+                                        @if(($is_featured)==1) 
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                       
+                                        @else 
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                        @endif
+                                    
+                                    </select>
                                     </div>
-                                    @error('tax')
+                                    @error('is_featured')
                                     <div class="alert alert-danger">
                                         <strong>{{$message}}</strong>
                                     </div>
                                     @enderror
                                 </div>
+
+
                                 <div class="col-3">
                                     <div class="form-group">
-                                        <label for="model" class="control-label mb-1">tax type</label>
-                                        <input id="tax_type" value="{{$tax_type}}" name="tax_type" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                        <label for="is_promo" class="control-label mb-1">Is discounted</label>
+
+                                    <select name="is_discounted" id="is_promo" class="form-control">
+                                        @if(($is_discounted)==1) 
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                       
+                                        @else 
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                        @endif
+                                    
+                                    </select>
                                     </div>
-                                    @error('tax_type')
+                                    @error('is_discounted')
                                     <div class="alert alert-danger">
                                         <strong>{{$message}}</strong>
                                     </div>
@@ -290,16 +314,35 @@
 
                                 <div class="col-3">
                                     <div class="form-group">
-                                        <label for="model" class="control-label mb-1">tax type</label>
-                                        <input id="tax_type" value="{{$tax_type}}" name="tax_type" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                        <label for="is_tranding" class="control-label mb-1">Is tranding</label>
+
+                                    <select name="is_tranding" id="is_promo" class="form-control">
+                                        @if(($is_tranding)==1) 
+                                        <option value="1" selected>Yes</option>
+                                        <option value="0">No</option>
+                                       
+                                        @else 
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                        @endif
+                                    
+                                    </select>
                                     </div>
-                                    @error('tax_type')
+                                    @error('is_tranding')
                                     <div class="alert alert-danger">
                                         <strong>{{$message}}</strong>
                                     </div>
                                     @enderror
                                 </div>
+
+
+                                
+
                             </div>
+
+
+
+                            
 
 
                             <!--  -->
