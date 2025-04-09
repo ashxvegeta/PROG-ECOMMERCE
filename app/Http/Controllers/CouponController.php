@@ -19,11 +19,17 @@ class CouponController extends Controller
           $result['title']= $arr[0]->title;
           $result['code']= $arr[0]->code;
           $result['value']= $arr[0]->value;
+          $result['type']= $arr[0]->type;
+          $result['min_order_amt']= $arr[0]->min_order_amt;
+          $result['is_one_time']= $arr[0]->is_one_time;
           $result['id']= $arr[0]->id;
           }else{
             $result['title']='';
             $result['code']='';
             $result['value']='';
+            $result['type']='';
+            $result['min_order_amt']='';
+            $result['is_one_time']='';
             $result['id']= 0;
 
           }
@@ -42,11 +48,15 @@ class CouponController extends Controller
         }else{
           $category =  new Coupon();
           $msg="Coupon Inserted successfully";
+          $category->status = 1;
         }
         $category->title =  $request->post('title');
         $category->code =  $request->post('code');
         $category->value =  $request->post('value');
-        $category->status = 1;
+        $category->type =  $request->post('type');
+        $category->min_order_amt =  $request->post('min_order_amt');
+        $category->is_one_time =  $request->post('is_one_time');
+        // $category->status = 1;
         $category->save();
         $request->session()->flash('message', $msg);
         return redirect('admin/coupon');
