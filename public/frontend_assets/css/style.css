@@ -1108,7 +1108,7 @@ img {
   height: 380px;
   text-align: center;
   margin: 0 0 20px 55px;
-  width: 20.5%;
+  /* width: 20.5%; */
   position: relative;
   overflow: hidden;
 }
