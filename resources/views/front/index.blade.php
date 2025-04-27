@@ -76,54 +76,22 @@
             <div class="row">
               <!-- promo left -->
               <div class="col-md-5 no-padding">                
-                <div class="aa-promo-left">
-                  <div class="aa-promo-banner">                    
-                    <img src="img/promo-banner-1.jpg" alt="img">                    
-                    <div class="aa-prom-content">
-                      <span>75% Off</span>
-                      <h4><a href="#">For Women</a></h4>                      
-                    </div>
-                  </div>
-                </div>
+                
               </div>
               <!-- promo right -->
-              <div class="col-md-7 no-padding">
+              <div class="col-md-12 no-padding">
                 <div class="aa-promo-right">
+                  @foreach($home_category as $list)  
                   <div class="aa-single-promo-right">
                     <div class="aa-promo-banner">                      
                       <img src="{{asset('frontend_assets/img/promo-banner-3.jpg')}}" alt="img">                      
                       <div class="aa-prom-content">
                         <span>Exclusive Item</span>
-                        <h4><a href="#">For Men</a></h4>                        
+                        <h4><a href="{{url('category/'.$list->category_slug)}}">{{$list->category_name}}</a></h4>                        
                       </div>
                     </div>
                   </div>
-                  <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                      <img src="{{asset('frontend_assets/img/promo-banner-2.jpg')}}" alt="img">                      
-                      <div class="aa-prom-content">
-                        <span>Sale Off</span>
-                        <h4><a href="#">On Shoes</a></h4>                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                      <img src="{{asset('frontend_assets/img/promo-banner-4.jpg')}}" alt="img">                      
-                      <div class="aa-prom-content">
-                        <span>New Arrivals</span>
-                        <h4><a href="#">For Kids</a></h4>                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                      <img src="{{asset('frontend_assets/img/promo-banner-5.jpg')}}" alt="img">                      
-                      <div class="aa-prom-content">
-                        <span>25% Off</span>
-                        <h4><a href="#">For Bags</a></h4>                        
-                      </div>
-                    </div>
+                  @endforeach
                   </div>
                 </div>
               </div>
@@ -144,10 +112,9 @@
               <div class="aa-product-inner">
                 <!-- start prduct navigation -->
                  <ul class="nav nav-tabs aa-products-tab">
-                    <li class="active"><a href="#men" data-toggle="tab">Men</a></li>
-                    <li><a href="#women" data-toggle="tab">Women</a></li>
-                    <li><a href="#sports" data-toggle="tab">Sports</a></li>
-                    <li><a href="#electronics" data-toggle="tab">Electronics</a></li>
+                    @foreach($home_category as $list)
+                    <li class="a"><a href="#{{$list->id}}" data-toggle="tab">{{$list->category_name}}</</a></li>
+                    @endforeach
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
@@ -164,46 +131,13 @@
                               <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
                             </figcaption>
                           </figure>                        
-                        
-                          <!-- product badge -->
-                          <!-- <span class="aa-badge aa-sale" href="#">SALE!</span> -->
-                        </li>
-                        <!-- start single product item -->
-               
-                        <!-- start single product item -->
-                    
-                        <!-- start single product item -->
-                   
-                        <!-- start single product item -->
-                    
-                        <!-- start single product item -->
-                   
-                        <!-- start single product item -->
-                   
-                        <!-- start single product item -->
-                                
+                        </li>        
                       </ul>
-                      <!-- <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a> -->
                     </div>
                     <!-- / men product category -->
                     <!-- start women product category -->
                     <div class="tab-pane fade" id="women">
                       <ul class="aa-product-catg">
-                        <!-- start single product item -->
-                    
-                        <!-- start single product item -->
-                      
-                        <!-- start single product item -->
-                       
-                        <!-- start single product item -->
-                    
-                        <!-- start single product item -->
-                
-                        <!-- start single product item -->
-                  
-                        <!-- start single product item -->
-                    
-                        <!-- start single product item -->
                         <li>
                           <figure>
                             <a class="aa-product-img" href="#"><img src="{{asset('frontend_assets/img/women/girl-1.')}}'" alt="polo shirt img"></a>
