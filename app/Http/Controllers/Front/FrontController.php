@@ -22,25 +22,17 @@ class FrontController extends Controller
             ->where(['status'=>1])
             ->where(['category_id'=>$list->id])
             ->get();
-        }
-        
-        foreach($result['home_category_product'] as $list){
-            $result['home_product_attr'][$list->id] = 
-            DB::table('products_attr')
-            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
-            ->leftjoin('colors','colors.id','=','products_attr.color_id')
-            ->where('products_attr.product_id',$list->id)
-            ->where(['status'=>1])
-            // ->where(['category_id'=>$list->id])
-            ->get(); 
 
+            foreach($result['home_category_product'][$list->id] as $list1){
+                        $result['home_product_attr'][$list1->id] = 
+                        DB::table('products_attr')
+                        ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+                        ->leftjoin('colors','colors.id','=','products_attr.color_id')
+                        ->where('products_attr.products_id',$list1->id)
+                        ->get(); 
+            }
         }
-        echo "<pre>";
-            print_r($result);
-            die();
        
-
-
         return view('front.index',$result);
     }
 }
