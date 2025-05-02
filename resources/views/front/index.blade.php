@@ -113,27 +113,42 @@
                 <!-- start prduct navigation -->
                  <ul class="nav nav-tabs aa-products-tab">
                     @foreach($home_category as $list)
-                    <li class="a"><a href="#{{$list->id}}" data-toggle="tab">{{$list->category_name}}</</a></li>
+                    <li class="a"><a href="#cat{{$list->id}}" data-toggle="tab">{{$list->category_name}}</</a></li>
                     @endforeach
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <!-- Start men product category -->
-                    <div class="tab-pane fade in active" id="men">
+                   @php
+                   $loop_count=1;
+                   @endphp
+                    @foreach($home_category as $list)
+                    @php
+                     $cat_class ="";
+                      if($loop_count==1){
+                        $cat_class = "in active";
+                        $loop_count++;
+                      }
+
+                    @endphp
+                    <div class="tab-pane fade in active" id="cat{{$list->id}}">
                       <ul class="aa-product-catg">
                         <!-- start single product item -->
+                        @foreach($home_category_product[$list->id] as $productArr) 
                         <li>
                           <figure>
-                            <a class="aa-product-img" href="#"><img src="{{asset('frontend_assets/img/man/polo-shirt-2.png')}}" alt="polo shirt img"></a>
+                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->name}}" style="height:150px;width:150px;"></a>
                             <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                               <figcaption>
-                              <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
+                              <h4 class="aa-product-title"><a href="#">{{$productArr->name}}</a></h4>
                               <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
                             </figcaption>
                           </figure>                        
                         </li>        
+                        @endforeach
                       </ul>
                     </div>
+                    @endforeach
                     <!-- / men product category -->
                     <!-- start women product category -->
                     <div class="tab-pane fade" id="women">

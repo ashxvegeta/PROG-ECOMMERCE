@@ -15,7 +15,7 @@ class FrontController extends Controller
         $result['home_category'] = DB::table('categories')
         ->where(['status' => 1])
         ->get();
-
+        
         foreach($result['home_category'] as $list){
             $result['home_category_product'][$list->id] = 
             DB::table('products')
