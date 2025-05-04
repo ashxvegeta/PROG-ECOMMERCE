@@ -22,7 +22,7 @@ class FrontController extends Controller
             ->where(['status'=>1])
             ->where(['category_id'=>$list->id])
             ->get();
-
+            
             foreach($result['home_category_product'][$list->id] as $list1){
                         $result['home_product_attr'][$list1->id] = 
                         DB::table('products_attr')

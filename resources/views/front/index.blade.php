@@ -131,21 +131,34 @@
                       }
 
                     @endphp
-                    <div class="tab-pane fade in active" id="cat{{$list->id}}">
+                    <div class="tab-pane fade {{$cat_class}}" id="cat{{$list->id}}">
                       <ul class="aa-product-catg">
                         <!-- start single product item -->
+                         @if(isset($home_category_product[$list->id][0]))
                         @foreach($home_category_product[$list->id] as $productArr) 
                         <li>
                           <figure>
-                            <a class="aa-product-img" href="#"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->name}}" style="height:150px;width:150px;"></a>
+                            <a class="aa-product-img" href="{{url('product/'.$productArr->slug)}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->name}}" style="height: 298px;width: 250px;"></a>
                             <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                               <figcaption>
                               <h4 class="aa-product-title"><a href="#">{{$productArr->name}}</a></h4>
-                              <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
+                              <span class="aa-product-price">Rs {{$home_product_attr[$productArr->id][0]->price}}</span><span class="aa-product-price"><del>Rs {{$home_product_attr[$productArr->id][0]->mrp}}</del></span>
                             </figcaption>
                           </figure>                        
                         </li>        
                         @endforeach
+
+                        @else
+
+                        <li>
+                          <figure>
+                                No Product Found
+                          </figure>
+                        </li>
+
+                        @endif
+
+
                       </ul>
                     </div>
                     @endforeach
